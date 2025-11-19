@@ -1,0 +1,41 @@
+import { useState, FormEvent } from "react";
+type Props = { onSubmit: (name1: string, name2: string) => void };
+
+export default function FlamesInput({ onSubmit }: Props) {
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (name1.trim() && name2.trim()) {
+      onSubmit(name1, name2);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 rounded-xl bg-white/80 shadow-xl max-w-md mx-auto">
+      <input
+        type="text"
+        placeholder="Enter first name"
+        value={name1}
+        onChange={e => setName1(e.target.value)}
+        className="input input-bordered text-lg font-pt-sans"
+        required
+      />
+      <input
+        type="text"
+        placeholder="Enter second name"
+        value={name2}
+        onChange={e => setName2(e.target.value)}
+        className="input input-bordered text-lg font-pt-sans"
+        required
+      />
+      <button
+        type="submit"
+        className="bg-gradient-to-r from-orange-400 to-pink-400 text-white font-semibold rounded-lg py-2 text-lg transition-all hover:scale-105"
+      >
+        🔥 Check Compatibility!
+      </button>
+    </form>
+  );
+}

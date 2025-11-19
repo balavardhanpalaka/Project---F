@@ -1,0 +1,44 @@
+import { useState } from "react";
+import FlamesInput from "../components/FlamesInput";
+import FlamesResultDisplay from "../components/FlamesResult";
+import FlamesHistory from "../components/FlamesHistory";
+import { flamesCalculation, FlamesResult } from "../utils/flamesLogic";
+
+type HistoryEntry = {
+  name1: string;
+  name2: string;
+  result: FlamesResult;
+  timestamp: number;
+};
+
+export default function Home() {
+  const [current, setCurrent] = useState<{name1: string, name2: string, result: FlamesResult} | null>(null);
+  const [history, setHistory] = useState<HistoryEntry[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("flames-history");
+      return stored ? JSON.parse(stored) : [];
+    }
+    return [];
+  });
+
+  const handleFlames = (name1: string, name2: string) => {
+    const result = flamesCalculation(name1, name2);
+    setCurrent({ name1, name2, result });
+    const entry: HistoryEntry = { name1, name2, result, timestamp: Date.now() };
+    const updated = [...history, entry].slice(-10); // max 10 entries
+    setHistory(updated);
+    localStorage.setItem("flames-history", JSON.stringify(updated));
+  };
+
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-flames-yellow via-flames-pink to-flames-orange font-pt-sans flex flex-col items-center justify-start py-10">
+      <h1 className="font-playfair text-5xl text-center text-flames-orange drop-shadow mt-8 mb-4">🔥 FLAMES Compatibility Checker</h1>
+      <FlamesInput onSubmit={handleFlames} />
+      {current && (
+        <FlamesResultDisplay name1={current.name1} name2={current.name2} result={current.result} />
+      )}
+      <FlamesHistory history={history} />
+      <footer className="absolute bottom-2 text-xs text-orange-900/60 font-pt-sans">Made with ❤️ and 🔥</footer>
+    </main>
+  );
+}

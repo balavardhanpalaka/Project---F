@@ -1,0 +1,38 @@
+import { FlamesResult } from "../utils/flamesLogic";
+import { FriendshipIcon } from "./icons/FriendshipIcon";
+// (Import other icons...)
+
+const ICON_MAP: Record<FlamesResult, JSX.Element> = {
+  Friendship: <FriendshipIcon />,
+  Love: /* <LoveIcon /> */ <span>❤️</span>,
+  Affection: /* <AffectionIcon /> */ <span>💞</span>,
+  Marriage: /* <MarriageIcon /> */ <span>💍</span>,
+  Enemy: /* <EnemyIcon /> */ <span>😈</span>,
+  Sibling: /* <SiblingIcon /> */ <span>👫</span>,
+};
+
+const DESCRIPTION_MAP: Record<FlamesResult, string> = {
+  Friendship: "You're destined to be best pals!",
+  Love: "There's a spark of romance here!",
+  Affection: "A warm and caring bond exists.",
+  Marriage: "Wedding bells may ring for you two!",
+  Enemy: "Watch out for rivalry!",
+  Sibling: "Feels just like family.",
+};
+
+type Props = {
+  name1: string;
+  name2: string;
+  result: FlamesResult;
+};
+
+export default function FlamesResultDisplay({ name1, name2, result }: Props) {
+  return (
+    <div className="flex flex-col items-center animate-fade-in-up bg-gradient-to-br from-yellow-50 via-pink-50 to-orange-50 rounded-xl shadow-lg p-6 mt-6 max-w-xl mx-auto">
+      <div className="text-5xl drop-shadow-lg mb-2 animate-pop">{ICON_MAP[result]}</div>
+      <h2 className="font-playfair text-3xl text-orange-600 mb-2">{result}</h2>
+      <p className="text-lg font-pt-sans text-gray-700">{DESCRIPTION_MAP[result]}</p>
+      <div className="mt-2 text-sm text-gray-400">{name1} × {name2}</div>
+    </div>
+  );
+}

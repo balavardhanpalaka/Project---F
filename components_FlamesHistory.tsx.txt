@@ -1,0 +1,42 @@
+import { FlamesResult } from "../utils/flamesLogic";
+import { FriendshipIcon } from "./icons/FriendshipIcon";
+// (Import other icons...)
+
+const ICON_MAP: Record<FlamesResult, JSX.Element> = {
+  Friendship: <FriendshipIcon />,
+  Love: <span>❤️</span>,
+  Affection: <span>💞</span>,
+  Marriage: <span>💍</span>,
+  Enemy: <span>😈</span>,
+  Sibling: <span>👫</span>,
+};
+
+type HistoryEntry = {
+  name1: string;
+  name2: string;
+  result: FlamesResult;
+  timestamp: number;
+};
+
+type Props = {
+  history: HistoryEntry[];
+};
+
+export default function FlamesHistory({ history }: Props) {
+  if (!history.length) return null;
+  return (
+    <div className="bg-white shadow p-4 rounded-lg mt-6 max-w-2xl mx-auto">
+      <h3 className="font-playfair text-lg mb-2 text-orange-500">Past Checks</h3>
+      <ul className="space-y-2">
+        {history.slice().reverse().map((entry, idx) => (
+          <li key={entry.timestamp + idx} className="flex items-center gap-2 font-pt-sans">
+            <span className="text-2xl">{ICON_MAP[entry.result]}</span>
+            <span className="font-semibold">{entry.name1}</span> & × <span className="font-semibold">{entry.name2}</span>
+            <span className="ml-2 text-xs text-gray-400">{new Date(entry.timestamp).toLocaleString()}</span>
+            <span className="ml-auto text-pink-600 font-bold">{entry.result}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

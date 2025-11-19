@@ -1,0 +1,8 @@
+import React from "react";
+
+export const FriendshipIcon = () => (
+  <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+    <circle cx="24" cy="24" r="22" fill="#FFB347" stroke="#FF9500" strokeWidth="4"/>
+    <path d="M14 28l6 6l14-14" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
